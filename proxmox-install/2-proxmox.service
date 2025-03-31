@@ -1,0 +1,14 @@
+[Unit]
+Description=Proxmox Install Script Part 2
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /root/2-proxmox-install.sh
+ExecStart=/bin/rm -f /root/2-proxmox-install.sh
+ExecStart=/bin/systemctl disable proxmox-install-part2.service
+ExecStart=/bin/systemctl daemon-reload
+ExecStart=/sbin/shutdown -r now
+
+[Install]
+WantedBy=multi-user.target
