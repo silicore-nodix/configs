@@ -12,3 +12,5 @@ Il y a plusieurs fichiers de configuration
 
 - `2-proxmox.service` : le fichier de service systemd qui va lancer le script `2-proxmox-install.sh` au reboot de la machine, il se lance une fois puis supprime le service pour ne pas le relancer au prochain reboot
 
+> [!CAUTION]
+> N'oubliez pas de modifier le fichier `preseed.cfg` pour mettre la bonne adresse ip pour recuperer les scripts bash

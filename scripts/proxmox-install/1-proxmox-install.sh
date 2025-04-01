@@ -5,7 +5,7 @@ DRY_RUN=0
 SRV_IP=$(ip route get 1.1.1.1 | awk 'NR==1 {print $7}')
 SRV_GW=$(ip route | awk '/default/ {print $3}')
 SRV_IFACE=$(ip route | awk '/default/ {print $5}')
-SRV_NETMASK=$(ip addr show $(ip route | awk '/default/ {print $5}') | awk '/inet / {print $2}' | cut -d/ -f2 | awk '{cidr=$1; mask=""; for (i=1; i<=4; i++) {mask=mask (cidr>=8?255:(256-(2^(8-(cidr>8?8:cidr))))) (i<4?".":""); cidr=(cidr>8?cidr-8:0)}; print mask}')
+SRV_NETMASK=$(ip addr show "$(ip route | awk '/default/ {print $5}')" | awk '/inet / {print $2}' | cut -d/ -f2 | awk '{cidr=$1; mask=""; for (i=1; i<=4; i++) {mask=mask (cidr>=8?255:(256-(2^(8-(cidr>8?8:cidr))))) (i<4?".":""); cidr=(cidr>8?cidr-8:0)}; print mask}')
 
 # check if we are running in preseed mode (we have a /target directory)
 if [ -d /target ]; then
@@ -20,7 +20,7 @@ export DEBIAN_FRONTEND=noninteractive
 if [ -n "$1" ]; then
     NEW_HOSTNAME=$1
 else
-    NEW_HOSTNAME="node$(ip link show $SRV_IFACE | awk '/ether/ {print $2}' | awk -F: '{printf "%s%s", $5, $6}')"
+    NEW_HOSTNAME="node$(ip link show "$SRV_IFACE" | awk '/ether/ {print $2}' | awk -F: '{printf "%s%s", $5, $6}')"
 fi
 
 # Fichiers de configuration

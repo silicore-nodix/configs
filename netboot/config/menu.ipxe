@@ -1,0 +1,28 @@
+#!ipxe
+
+# Custom Debian Installation Menu
+
+:custom
+clear custom_choice
+set default_preseed_url http://192.168.50.254:8081/scripts/proxmox-install/preseed.cfg
+menu Custom Debian Installation Menu
+item --gap Debian Installation Options
+item install_debian Install Debian 12
+item preseed_url Preseed URL (current: ${default_preseed_url})
+item go_back Go back to menu
+choose --timeout 30000 --default install_debian custom_choice || goto custom_exit
+echo ${cls}
+goto ${custom_choice}
+goto custom_exit
+
+:install_debian
+echo Starting Debian 12 installation...
+kernel http://ftp.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux
+initrd http://ftp.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz
+imgargs linux auto=true priority=critical preseed/url=${default_preseed_url}
+boot || goto custom_exit
+
+:preseed_url
+echo -n Enter new Preseed URL (press Enter to keep current): && read new_preseed_url
+iseq \${new_preseed_url} && set new_preseed_url \${default_preseed_url}
+
