@@ -3,8 +3,8 @@ services:
     image: docker.cloudsmith.io/isc/docker/kea-dhcp4:2.5.2
     container_name: kea4
     volumes:
-      - ./kea/config:/etc/kea
-      - ./kea/leases:/var/lib/kea
+      - ./kea/config:/etc/kea:ro
+      - ./kea/leases:/var/lib/kea:rw #Don't forget to chmod 777 on the leases folder (because docker sucks)
     network_mode: "host"
     restart: unless-stopped
 
