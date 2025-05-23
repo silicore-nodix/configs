@@ -14,10 +14,10 @@ fi
 echo "Updating package list..."
 apt-get update && apt-get upgrade -y
 
-systemctl stop systemd-resolved
-systemctl disable systemd-resolved
-rm /etc/resolv.conf
-ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
+# systemctl stop systemd-resolved
+# systemctl disable systemd-resolved
+# rm /etc/resolv.conf
+# ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
 # Install the Netboot server
 echo "Installing Netboot server..."

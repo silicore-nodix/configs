@@ -40,6 +40,9 @@ iface lo inet loopback
 
 auto $SRV_IFACE
 iface $SRV_IFACE inet dhcp
+    hostname nom-machine
+    pre-up sed -i '/^send dhcp-client-identifier/d' /etc/dhcp/dhclient.conf || true
+    pre-up echo 'send dhcp-client-identifier "";' >> /etc/dhcp/dhclient.conf
 EOF
 
 # 2. Changement du nom d'hôte
